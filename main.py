@@ -56,7 +56,7 @@ leftUpText = font.render("Left Up", True, (255, 255, 255))
 rightUpText = font.render("Right Up", True, (255, 255, 255))
 
 # open serial com to Arduino
-ser = serial.Serial(port='COM7', baudrate=9600, timeout=.1, dsrdtr=True)
+ser = serial.Serial(port='COM5', baudrate=9600, timeout=.1, dsrdtr=True)
 # dsrdtr=True stops Arduino Mega from auto resetting
 
 trigger_button = [False, False]  # Initialize False Boolean values for Left Button and Right Button
@@ -181,6 +181,8 @@ while True:
         x = joystick.get_axis(1)  # left joystick -1 is left to +1 is right (left thruster)
         y = joystick.get_axis(0)  # left joystick -1 is up +1 is down (right thruster)
         z = joystick.get_axis(3)  # right joystick x-axis, used for vertical
+        #J
+        v = joystick.get_axis (2)  # used for horizontal (crabbing) movement in the right joystick
 
     if abs(x) < .2:  # define a dead zone
         x = 0
@@ -188,16 +190,37 @@ while True:
         y = 0
     if abs(z) < .2:  # define a dead zone
         z = 0
+    if abs(v) < .2: # define a dead zone, J
+        v = 0
 
     if onStatus.state:  # When the status is toggled to "On" by pressing Button A on the controller: Limits thrust for SURGE direction (forward/backward).
         y = y * 1.414  # gives value of 1 for full thrust forward and backwards
         x = x * 1.414  # gives value of 1 for full thrust forward and backwards
 
-    # rotate x and y-axis of joystick 45 degrees
-
-    x_new = -(x*(math.pi/4)) + (y*(math.pi/4))
-    y_new = (x*(math.pi/4)) + (y*(math.pi/4))
+    cutoff = 0.2
+        
     
+    
+    # rotate x and y-axis of joystick 45 degrees    
+    x_new = (x*(math.pi/4)) + (y*(math.pi/4))               #Fixed signs to match --> https://en.wikipedia.org/wiki/Rotation_of_axes_in_two_dimensions
+    y_new = -(x*(math.pi/4)) + (y*(math.pi/4))
+    
+    magnitudeAvg = abs(x_new)+abs(y_new) / 2
+    
+    if (x_new < 0 and y_new > 0) : #Forward 
+        x_new = -magnitudeAvg
+        y_new = magnitudeAvg
+    elif (x_new > 0 and y_new < 0): #Backward 
+        x_new = magnitudeAvg
+        y_new = -magnitudeAvg
+    elif (x_new < 0 and y_new < 0): #Rotation in place to the left
+        x_new = -magnitudeAvg
+        y_new = x_new
+    elif (x_new > 0 and y_new > 0): #Rotation in place to the right
+        x_new = magnitudeAvg
+        y_new = x_new
+    
+   # print(x_new, y_new)
 
     # limits joystick values to +/- 1
     if x_new > 1:
@@ -209,19 +232,38 @@ while True:
     if y_new < -1:
         y_new = -1.0
 
-    # add to dictionary
-    # Cubing the values gives more control with lower power
-    # These are the commands being sent to the Arduino Mega Board
+
     commands['tleft'] = x_new ** 3
     commands['tright'] = y_new ** 3
-    commands['tup'] = z ** 3
+    
+    #print(commands['tleft'], commands['tright'])
+    
+    #tune scale_factor as desired. 0.2 is the lowest value other than 0. values between 0 and 0.2 are cast to 0(i.e, dominant thrust at 100%, non-dominant thruster is off)
+    scale_factor = 0.2              #Controls how fast the non-dominant vertical thruster spins relative to the dominant vertical thruster.
+                                    #e.g, when "crabbing" right, the LEFT vertical thruster is the dominant thruster. The right
+                                    #vertical thruster is the non-dominant thruster. You may want the non-dominant thruster to spin
+                                    #at 20%, 30%, 40%, or maybe even 0% the speed of the dominant thruster. This is up to what the pilot is most comfortable with.
+    if v > 0:  # Crabbing right - We want more power allocated to the thruster on the opposite side to move in the correct direction
+        commands['tup_left'] = round(v ** 3) # Controler will return +-0.99xx instead of 1, this float gets integer cast to 0, causing the motor to not turn, hence the round
+        commands['tup_right'] = commands['tup_left'] * scale_factor # Minimal thrust on the right horizontal thruster 
+        print(commands['tup_left'], commands['tup_right'])
+
+    elif v < 0:  # Crabbing left
+        commands['tup_right'] = round(v ** 3)
+        commands['tup_left'] = commands['tup_right'] * scale_factor
+    else: # No crabbing, going striaght up or down
+        commands['tup_left'] = round(z ** 3) 
+        commands['tup_right'] = round(z ** 3) #Integer round horseshit
+        
+
     commands['claw'] = clawValue  # send the claw value
     commands['rotate'] = rotateValue  # send the servo value to arduino Addded: 4/6/24
+    
 
     mLeftSlider.value = commands['tleft']  # assign thruster values to a display
     mRightSlider.value = commands['tright']
-    leftUpSlider.value = commands['tup']
-    rightUpSlider.value = commands['tup']
+    leftUpSlider.value = commands['tup_left']
+    rightUpSlider.value = commands['tup_right']
 
     MESSAGE = json.dumps(commands)  # puts python dictionary in Json format
     ser.write(bytes(MESSAGE, 'utf-8'))  # byte format sent to arduino
