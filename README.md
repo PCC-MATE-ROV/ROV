@@ -17,7 +17,7 @@ This repository contains the code for a Remotely Operated Vehicle (ROV) control 
 - Serial Communication: Sends commands to the ROV's Arduino controller, allowing for real-time control of the vehicle.
 - Live video capture: Three onboard cameras, one main which appears on the pygame and two external auxillary cameras ran by [OBSstudio](https://obsproject.com/download)
 - Image Capture: Utilizes Pygame's camera module for capturing images, which can be used for navigation or documentation. (Needs to be configured)
-Future Plans:
+## Future Plans:
 - 3D Photogrammetry: With hardware and software upgrades, the ROV can perform 3D photogrammetry underwater. 
 - Autonomous movement: With hardware and software upgrades, the ROV can perform autopathing or predefined pathing underwater.
 ---
