@@ -9,7 +9,7 @@ This repository contains the code for a Remotely Operated Vehicle (ROV) control 
 - `joystickX_test.py`: Script for testing joystick functionality and input handling.
 - `main.py`: The main control script integrating joystick input, GUI updates, and hardware control commands.
 - `widgets2.py`: Defines custom Pygame widgets for the GUI, including toggles, displays, and sliders.
-- `Arduino_for_ROV.ino`: Arduino sketch for receiving control signals and managing hardware components like servos and sensors.
+- `rover-arduino.ino`: Arduino sketch for receiving control signals and managing hardware components like servos and sensors.
 
 # Key Features:
 Pygame GUI: A custom GUI setup that includes a main view area and a sidebar for additional controls and information.
