@@ -39,8 +39,10 @@ To run the ROV control system, ensure you have Python installed along with the P
 - Python 3.x
 - Pygame library
 - PySerial library
+  
 - Arduino IDE
-- ArduinoJson library for Arduino
+- "ArduinoJson" by Benoit library
+- "Servo" by Michael Margolis library
 
 ---
 # Installation
