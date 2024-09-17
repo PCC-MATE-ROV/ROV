@@ -12,22 +12,14 @@ This repository contains the code for a Remotely Operated Vehicle (ROV) control 
 - `rover-arduino.ino`: Arduino sketch for receiving control signals and managing hardware components like servos and sensors.
 
 # Key Features:
-Pygame GUI: A custom GUI setup that includes a main view area and a sidebar for additional controls and information.
-
-Joystick Control: Interprets joystick inputs for ROV movement, using mathematical calculations to translate joystick position into commands.
-
-Serial Communication: Sends commands to the ROV's Arduino controller, allowing for real-time control of the vehicle.
-
-Live video capture: Two onboard cameras, one main and one auxillary camera capture live video of ROV's underwater environment to enable Pilot to navigate.
-
-Image Capture: Utilizes Pygame's camera module for capturing images, which can be used for navigation or documentation. (Needs to be configured)
-
+- Pygame GUI: A custom GUI setup that includes a main view area and a sidebar for additional controls and information.
+- Joystick Control: Interprets joystick inputs for ROV movement, using mathematical calculations to translate joystick position into commands.
+- Serial Communication: Sends commands to the ROV's Arduino controller, allowing for real-time control of the vehicle.
+- Live video capture: Three onboard cameras, one main which appears on the pygame and two external auxillary cameras ran by [OBSstudio](https://obsproject.com/download)
+- Image Capture: Utilizes Pygame's camera module for capturing images, which can be used for navigation or documentation. (Needs to be configured)
 Future Plans:
-
-3D Photogrammetry: With hardware and software upgrades, the ROV can perform 3D photogrammetry underwater. 
-
-Autonomous movement: With hardware and software upgrades, the ROV can perform autopathing or predefined pathing underwater.
-
+- 3D Photogrammetry: With hardware and software upgrades, the ROV can perform 3D photogrammetry underwater. 
+- Autonomous movement: With hardware and software upgrades, the ROV can perform autopathing or predefined pathing underwater.
 ---
 
 # Getting Started
