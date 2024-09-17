@@ -46,14 +46,20 @@ To run the ROV control system, ensure you have Python installed along with the P
 
 ---
 # Installation
-1. Clone this repository to your local machine.
-2. Ensure all prerequisites are installed.
-```python
+
+## Arduino Installation
+1. Get [Arduino Uno IDE](https://www.arduino.cc/en/software)
+2. Install ArduinoJson and Servo libraries in IDE
+## Python Installation
+(Important Note: YOU NEED WINDOWS FOR THIS PROJECT, IT DOESN'T SUPPORT MAC)
+1. Here is the [link](https://www.geeksforgeeks.org/how-to-install-python-on-windows/) to install python on your Windows
+2. Use any desired IDE, I recommend [VScode](https://code.visualstudio.com/download)
+3. Get [pip](https://www.geeksforgeeks.org/how-to-install-pip-on-windows/)
+4. After you get pip running, install pygame and pyserial using the following commands in cmd
+```
 pip install pygame
 pip install pyserial
 ```
-3. Upload `Arduino_for_ROV.ino` to your Arduino board.
-4. Run `ROV_main.py` to start the control system.
 
 # Contributing
 Contributions to the ROV control system are welcome. Please feel free to fork the repository, make changes, and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
