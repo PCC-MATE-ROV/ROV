@@ -39,10 +39,10 @@ To run the ROV control system, ensure you have Python installed along with the P
 ---
 # Installation
 
-## Arduino Installation
+## Arduino
 1. Get [Arduino Uno IDE](https://www.arduino.cc/en/software)
 2. Install ArduinoJson and Servo libraries in IDE
-## Python Installation
+## Python
 (Important Note: YOU NEED WINDOWS FOR THIS PROJECT, IT DOESN'T SUPPORT MAC)
 1. Here is the [link](https://www.geeksforgeeks.org/how-to-install-python-on-windows/) to install python on your Windows
 2. Use any desired IDE, I recommend [VScode](https://code.visualstudio.com/download)
