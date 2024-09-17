@@ -49,7 +49,8 @@ To run the ROV control system, ensure you have Python installed along with the P
 1. Clone this repository to your local machine.
 2. Ensure all prerequisites are installed.
 ```python
-pip install pygame pyserial
+pip install pygame
+pip install pyserial
 ```
 3. Upload `Arduino_for_ROV.ino` to your Arduino board.
 4. Run `ROV_main.py` to start the control system.
